@@ -9,9 +9,11 @@ let subscriptores = 22000 ;
 
 module.exports = {
     subs : subscriptores,
-    saludar: function(){
+    saludar: () => {
         console.log("SALUDAR : Importaremos nuetros propios archivos");
-    }
+    },
+    sumar: (a,b) => a + b ,
+    mostrar: a => a + 10 ,
 }
 
 
