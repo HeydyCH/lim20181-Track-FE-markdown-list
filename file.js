@@ -40,10 +40,49 @@ const getData = (data) =>{
   const tokens = marked.lexer(data); 
   // console.log(tokens); // Matriz con def de etiquetas
   const html = marked.parser(tokens);
-  console.log(html); // Etiquetas Html con todo el content of files
-  getLinks(html);
+  // console.log(html); // Etiquetas Html con todo el content of files
+  filterLinks(html);
 }
 
-const getLinks = (html) => {
-  
+const arrayLinks = [];
+
+const filterLinks = (contentFile) => {
+  let htmlContentA = contentFile.toString().split('<a href=');
+  // console.log(htmlContentA);
+  let htmlContentImg = contentFile.toString().split('<img src=');
+  // console.log(htmlContentImg);
+  // FILTRANDO LOS LINKS 
+  // htmlContentA y htmlContentImg son ARRAY's
+  allLinks(htmlContentA);
+  allLinks(htmlContentImg);
+}
+
+const allLinks = (content) =>{
+  console.log("funcion getLinks")
+  let i1 = 0 ;
+  for(const line of content){
+    if(i1!=0){
+      // console.log(line + "\n")
+      const arrPos = [];
+    for( const i in line){
+      // position es i
+      letter = line[i]
+      if(letter == '"'){
+        // console.log("pos : "+ i)
+        arrPos.push(i)
+      }
+    }
+    // console.log(arrPos);
+    let newLine = line.substr(arrPos[0],arrPos[1])
+    // console.log(newLine);
+    arrayLinks.push(newLine);
+    }
+    i1= i1+1 ;
+  }
+  // console.log(arrayLinks)
+  statusLinks(arrayLinks);
+}
+
+statusLinks =(arrayLinks)=> {
+  console.log(arrayLinks)
 }
