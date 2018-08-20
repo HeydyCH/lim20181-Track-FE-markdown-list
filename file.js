@@ -46,7 +46,7 @@ const getData = (data) =>{
   filterLinks(html);
 }
 
-const arrayLinks = [];
+// const arrayLinks = [];
 
 const filterLinks = (contentFile) => {
   let htmlContentA = contentFile.toString().split('<a href=');
@@ -55,12 +55,42 @@ const filterLinks = (contentFile) => {
   // console.log(htmlContentImg);
   // FILTRANDO LOS LINKS 
   // htmlContentA y htmlContentImg son ARRAY's
-  allLinks(htmlContentA);
-  allLinks(htmlContentImg);
+  
+  let allArrayLinks=allLinks(htmlContentA).concat(allLinks(htmlContentImg));
+  console.log(statusLinks(allArrayLinks));
+  
 }
+
+const statusLinks =(arrayLinks)=> {
+  console.log(arrayLinks) 
+
+  tam = arrayLinks.length;
+  console.log(tam)
+
+  for (const link of arrayLinks){
+  // console.log(link);
+  request(link, function(error, response, body) {
+  console.log(link);
+  if(error != null){
+    console.log('error:', error.message); // Print the error if one occurred
+    // console.log("error")
+    
+  }else{
+
+    console.log('------- statusCode:', response && response.statusCode); // Print the response status code if a response was received
+    // console.log('body:', body.status); // Print the HTML for the Google homepage.
+  }
+  
+  });
+
+  }
+  
+}
+
 
 const allLinks = (content) =>{
   console.log("funcion getLinks")
+  const arrayLinks = []
   let i1 = 0 ;
   for(const line of content){
     if(i1!=0){
@@ -81,29 +111,11 @@ const allLinks = (content) =>{
     }
     i1= i1+1 ;
   }
+  return arrayLinks
   // console.log(arrayLinks)
-  statusLinks(arrayLinks);
 }
 
 
-statusLinks =(arrayLinks)=> {
-  console.log(arrayLinks) 
-
-  tam = arrayLinks.length;
-  console.log(tam)
-
-  for (const link of arrayLinks){
-  // console.log(link);
-  request(link, function(error, response, body) {
-  console.log(link);
-  // console.log('error:', error); // Print the error if one occurred
-  console.log('------- statusCode:', response && response.statusCode); // Print the response status code if a response was received
-  // console.log('body:', body.status); // Print the HTML for the Google homepage.
-  });
-
-  }
-  
-}
 
 
 
