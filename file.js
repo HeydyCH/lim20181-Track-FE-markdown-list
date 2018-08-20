@@ -1,5 +1,7 @@
+// npm install marked --save
 const fs = require('fs');
-const marked = require('marked');
+const marked = require('marked'); // Para extraccion de los links
+var request = require('request'); // Para validar el status de los links
 
 // Leer el contenido de un directorio de manera Asincrona
 fs.readdir('./', (error, files) => {
@@ -40,7 +42,7 @@ const getData = (data) =>{
   const tokens = marked.lexer(data); 
   // console.log(tokens); // Matriz con def de etiquetas
   const html = marked.parser(tokens);
-  // console.log(html); // Etiquetas Html con todo el content of files
+  console.log(html); // Etiquetas Html con todo el content of files
   filterLinks(html);
 }
 
@@ -73,7 +75,7 @@ const allLinks = (content) =>{
       }
     }
     // console.log(arrPos);
-    let newLine = line.substr(arrPos[0],arrPos[1])
+    let newLine = line.substr(arrPos[0]+1,arrPos[1]-1)
     // console.log(newLine);
     arrayLinks.push(newLine);
     }
@@ -83,6 +85,25 @@ const allLinks = (content) =>{
   statusLinks(arrayLinks);
 }
 
+
 statusLinks =(arrayLinks)=> {
-  console.log(arrayLinks)
+  console.log(arrayLinks) 
+
+  tam = arrayLinks.length;
+  console.log(tam)
+
+  for (const link of arrayLinks){
+  // console.log(link);
+  request(link, function(error, response, body) {
+  console.log(link);
+  // console.log('error:', error); // Print the error if one occurred
+  console.log('------- statusCode:', response && response.statusCode); // Print the response status code if a response was received
+  // console.log('body:', body.status); // Print the HTML for the Google homepage.
+  });
+
+  }
+  
 }
+
+
+

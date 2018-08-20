@@ -322,3 +322,7 @@ habilidades blandas. Te aconsejamos revisar la rúbrica:
 - [ ] Pruebas unitarias cubren un mínimo del 70% de statements, functions,
       lines, y branches.
 - [ ] Pasa tests (y linters) (`npm test`).
+
+
+- [status 404](https://github.com/MichelleSV)
+- [status 200](https://github.com/HeydyCH)
