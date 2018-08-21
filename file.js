@@ -1,4 +1,5 @@
 // npm install marked --save
+// npm install request --save
 const fs = require('fs');
 const marked = require('marked'); // Para extraccion de los links
 var request = require('request'); // Para validar el status de los links
@@ -38,7 +39,6 @@ const getData = (data) =>{
   // console.log(data)
 
   // -- Convertir todo el contenido en etiquetas html 
-
   const tokens = marked.lexer(data); 
   // console.log(tokens); // Matriz con def de etiquetas
   const html = marked.parser(tokens);
@@ -46,27 +46,23 @@ const getData = (data) =>{
   filterLinks(html);
 }
 
-// const arrayLinks = [];
-
 const filterLinks = (contentFile) => {
   let htmlContentA = contentFile.toString().split('<a href=');
   // console.log(htmlContentA);
   let htmlContentImg = contentFile.toString().split('<img src=');
   // console.log(htmlContentImg);
   // FILTRANDO LOS LINKS 
-  // htmlContentA y htmlContentImg son ARRAY's
-  
-  let allArrayLinks=allLinks(htmlContentA).concat(allLinks(htmlContentImg));
-  console.log(statusLinks(allArrayLinks));
+  // htmlContentA y htmlContentImg son ARRAY's 
+  let allArrayLinks=allLinks(htmlContentA,1).concat(allLinks(htmlContentImg,2));
+  // console.log(statusLinks(allArrayLinks));
+  console.log(allArrayLinks)
   
 }
 
 const statusLinks =(arrayLinks)=> {
   console.log(arrayLinks) 
-
   tam = arrayLinks.length;
   console.log(tam)
-
   for (const link of arrayLinks){
   // console.log(link);
   request(link, function(error, response, body) {
@@ -74,9 +70,7 @@ const statusLinks =(arrayLinks)=> {
   if(error != null){
     console.log('error:', error.message); // Print the error if one occurred
     // console.log("error")
-    
   }else{
-
     console.log('------- statusCode:', response && response.statusCode); // Print the response status code if a response was received
     // console.log('body:', body.status); // Print the HTML for the Google homepage.
   }
@@ -87,10 +81,10 @@ const statusLinks =(arrayLinks)=> {
   
 }
 
-
-const allLinks = (content) =>{
-  console.log("funcion getLinks")
+const allLinks = (content , opt) =>{
+  console.log("--- > funcion getLinks")
   const arrayLinks = []
+  const textLinks = []
   let i1 = 0 ;
   for(const line of content){
     if(i1!=0){
@@ -103,19 +97,33 @@ const allLinks = (content) =>{
         // console.log("pos : "+ i)
         arrPos.push(i)
       }
+    
+    
+    }
+
+    if(opt == 2){
+      textLinks.push("Link de una Imagen")
+    }else{
+      // veamos el text de la etiqueta <a
+      line.toString().split('</a>')
+      
+      let filterText = line.toString().split('</a>')
+      let textA= filterText[0].substr(arrPos[1]-3+5)
+      textLinks.push(textA);
+
     }
     // console.log(arrPos);
     let newLine = line.substr(arrPos[0]+1,arrPos[1]-1)
     // console.log(newLine);
     arrayLinks.push(newLine);
+
     }
     i1= i1+1 ;
   }
+  console.log(textLinks)
   return arrayLinks
   // console.log(arrayLinks)
 }
-
-
 
 
 
