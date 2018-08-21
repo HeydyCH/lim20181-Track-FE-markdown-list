@@ -1,14 +1,14 @@
 // npm install marked --save
 // npm install request --save
 const fs = require('fs');
-const marked = require('marked'); // Para extraccion de los links
+const marked = require('marked'); // Para extraccion de los links (html)
 var request = require('request'); // Para validar el status de los links
 
 // Leer el contenido de un directorio de manera Asincrona
 fs.readdir('./', (error, files) => {
   files.forEach(file => {
     // console.log(file);
-    let stats = fs.statSync(file)
+    const stats = fs.statSync(file)
     if (stats.isDirectory()) {
       // console.log('yes, that is a directory')
     } else if (stats.isFile()) {
@@ -17,7 +17,7 @@ fs.readdir('./', (error, files) => {
       //file.slice(a,b) --> recorta el string del indice a al b
       let extension = file.slice(file.lastIndexOf(".") + 1)
       // console.log(extension);
-      if (extension == "md") {
+      if (extension === "md") {
         fs.readFile(file, 'utf-8', (error, data) => {
           if (error) {
             console.log(`Error ${error}`);
@@ -53,9 +53,16 @@ const filterLinks = (contentFile) => {
   // console.log(htmlContentImg);
   // FILTRANDO LOS LINKS 
   // htmlContentA y htmlContentImg son ARRAY's 
-  let allArrayLinks=allLinks(htmlContentA,1).concat(allLinks(htmlContentImg,2));
-  console.log(statusLinks(allArrayLinks));
-  // console.log(allArrayLinks)
+  let allArrayLinks=allLinks(htmlContentA,1)[0].concat(allLinks(htmlContentImg,2)[0]);
+  let allTextArrayLinks = allLinks(htmlContentA,1)[1].concat(allLinks(htmlContentImg,2)[1])
+  // console.log(statusLinks(allArrayLinks));
+  console.log(allArrayLinks)
+  console.log(allTextArrayLinks)
+
+
+  // --------------------------------------------------
+
+  
   
 }
 
@@ -88,7 +95,6 @@ const statusLinks =(arrayLinks)=> {
 }
 
 const allLinks = (content , opt) =>{
-  console.log("--- > funcion getLinks")
   const arrayLinks = []
   const textLinks = []
   let i1 = 0 ;
@@ -126,8 +132,9 @@ const allLinks = (content , opt) =>{
     }
     i1= i1+1 ;
   }
-  console.log(textLinks)
-  return arrayLinks
+  // console.log(textLinks)
+  return [arrayLinks , textLinks]
+  // return arrayLinks
   // console.log(arrayLinks)
 }
 
