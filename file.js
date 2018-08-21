@@ -60,7 +60,7 @@ const filterLinks = (contentFile) => {
 }
 
 const statusLinks =(arrayLinks)=> {
-  console.log(arrayLinks) 
+  // console.log(arrayLinks) 
   tam = arrayLinks.length;
   console.log(tam)
   for (const link of arrayLinks){
@@ -69,7 +69,7 @@ const statusLinks =(arrayLinks)=> {
   console.log(link);
   if(error != null){
     // console.log('error:', error.message); // Print the error if one occurred
-    console.log("Error de conexion o protocolo")
+    console.log(" Error de conexion o protocolo")
   }else{
     // console.log('------- statusCode:', response && response.statusCode); // Print the response status code if a response was received
     // console.log('body:', body.status); // Print the HTML for the Google homepage.
