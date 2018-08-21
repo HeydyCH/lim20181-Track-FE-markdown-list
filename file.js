@@ -66,19 +66,18 @@ const statusLinks =(arrayLinks)=> {
   for (const link of arrayLinks){
   // console.log(link);
   request(link, function(error, response, body) {
-  console.log(link);
   if(error != null){
     // console.log('error:', error.message); // Print the error if one occurred
-    console.log(" Error de conexion o protocolo")
+    console.log(link + "  -->  Error de conexion o protocolo")
   }else{
     // console.log('------- statusCode:', response && response.statusCode); // Print the response status code if a response was received
     // console.log('body:', body.status); // Print the HTML for the Google homepage.
     statuslink = response && response.statusCode ;
 
     if( 200<=statuslink && statuslink <=400 ){
-      console.log('ok ' + statuslink)
+      console.log(link + '  -->  ok ' + statuslink)
     }else{
-      console.log('fail '+ statuslink)
+      console.log(link + '  -->  fail '+ statuslink)
     }
   }
   
