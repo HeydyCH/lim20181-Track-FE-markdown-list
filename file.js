@@ -54,8 +54,8 @@ const filterLinks = (contentFile) => {
   // FILTRANDO LOS LINKS 
   // htmlContentA y htmlContentImg son ARRAY's 
   let allArrayLinks=allLinks(htmlContentA,1).concat(allLinks(htmlContentImg,2));
-  // console.log(statusLinks(allArrayLinks));
-  console.log(allArrayLinks)
+  console.log(statusLinks(allArrayLinks));
+  // console.log(allArrayLinks)
   
 }
 
@@ -68,11 +68,18 @@ const statusLinks =(arrayLinks)=> {
   request(link, function(error, response, body) {
   console.log(link);
   if(error != null){
-    console.log('error:', error.message); // Print the error if one occurred
-    // console.log("error")
+    // console.log('error:', error.message); // Print the error if one occurred
+    console.log("Error de conexion o protocolo")
   }else{
-    console.log('------- statusCode:', response && response.statusCode); // Print the response status code if a response was received
+    // console.log('------- statusCode:', response && response.statusCode); // Print the response status code if a response was received
     // console.log('body:', body.status); // Print the HTML for the Google homepage.
+    statuslink = response && response.statusCode ;
+
+    if( 200<=statuslink && statuslink <=400 ){
+      console.log('ok ' + statuslink)
+    }else{
+      console.log('fail '+ statuslink)
+    }
   }
   
   });

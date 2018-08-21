@@ -326,3 +326,6 @@ habilidades blandas. Te aconsejamos revisar la rúbrica:
 
 - [status 404](https://github.com/MichelleSV)
 - [status 200](https://github.com/HeydyCH)
+
+- [status 200](htps://github.com/HeydyCH)
+- [status 200](ps://github.com/HeydyCH)
