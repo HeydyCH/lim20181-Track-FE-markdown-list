@@ -5,7 +5,10 @@ const marked = require('marked'); // Para extraccion de los links (html)
 var request = require('request'); // Para validar el status de los links
 
 // Leer el contenido de un directorio de manera Asincrona
-fs.readdir('./', (error, files) => {
+let path = './'
+
+
+fs.readdir(path, (error, files) => {
   files.forEach(file => {
     // console.log(file);
     const stats = fs.statSync(file)
@@ -42,7 +45,7 @@ const getData = (data) =>{
   const tokens = marked.lexer(data); 
   // console.log(tokens); // Matriz con def de etiquetas
   const html = marked.parser(tokens);
-  console.log(html); // Etiquetas Html con todo el content of files
+  // console.log(html); // Etiquetas Html con todo el content of files
   filterLinks(html);
 }
 
@@ -55,15 +58,31 @@ const filterLinks = (contentFile) => {
   // htmlContentA y htmlContentImg son ARRAY's 
   let allArrayLinks=allLinks(htmlContentA,1)[0].concat(allLinks(htmlContentImg,2)[0]);
   let allTextArrayLinks = allLinks(htmlContentA,1)[1].concat(allLinks(htmlContentImg,2)[1])
-  // console.log(statusLinks(allArrayLinks));
+  console.log(statusLinks(allArrayLinks));
   console.log(allArrayLinks)
-  console.log(allTextArrayLinks)
+  // console.log(allTextArrayLinks)
 
 
   // --------------------------------------------------
+  // PONIENDO EN UN OBJETO TODOS LOS LINK ENCONTRADOS
+  // --------------------------------------------------
 
-  
-  
+
+
+  // console.log(allTextArrayLinks[3])
+
+  let objetLinks = [] ; 
+  // for(let link of allArrayLinks){
+  for( let i=0 ; i<= allArrayLinks.length ; i++ ){  
+    let link = allArrayLinks[i]
+    objetLinks.push (
+      { "href":link ,
+        "text" : allTextArrayLinks[i] ,
+        "file" : path
+      }
+    )
+  }
+  console.log(objetLinks);
 }
 
 const statusLinks =(arrayLinks)=> {
